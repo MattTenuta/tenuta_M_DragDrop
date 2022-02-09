@@ -6,6 +6,8 @@
 		dropZones = document.querySelectorAll(".drop-zone"),
 		theGameBoard = document.querySelector(".puzzle-board");
 
+	const piecePaths = ["topLeft", "topRight", "bottomLeft", "bottomRight"];
+
 	//theButtons becomes this:
 	// [
 	// <img>
@@ -14,12 +16,16 @@
 	// <img>
 	//]
 
-	function changeBgImg() {
+	function changeImageSet() {	
 		// debugger; //pause out code execution at this point
 		let key = this.dataset.bgref;
 		console.log(key);
 
 		theGameBoard.style.backgroundImage = `url(images/backGround${key}.jpg)`
+
+	piecePaths.forEach((piece, index) => {
+		puzzlePieces[index].src = `images/${piece + this.dataset.bgref}.jpg `
+	})
 	}
 
 	function startDrag(event) {
@@ -47,7 +53,7 @@
 		this.appendChild(document.querySelector(`#${currentEl}`));
 	}
 
-	theButtons.forEach(button => button.addEventListener("click", changeBgImg));
+	theButtons.forEach(button => button.addEventListener("click", changeImageSet));
 
 	puzzlePieces.forEach(piece => piece.addEventListener("dragstart", startDrag));
 
