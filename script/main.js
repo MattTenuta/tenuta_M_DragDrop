@@ -1,23 +1,50 @@
+// Hi Trevor
+// I just wanted to put these comments at the top to let you know I couldnt figure out how to reset the pieces or to stop the pieces from stacking
+// I tried many different times and worked my way through it but I couldnt get it
+
+// I left my code in that I added but it is commented out so you can take a look at my attempts
+// I also left comments to show my thoughts as I wrote the code
+
+
 (() => {
-	//make the connections to the elements on the page 
-	//that we want the user to interact with
 	let theButtons = document.querySelectorAll("#buttonHolder img"),
 		puzzlePieces = document.querySelectorAll(".puzzle-pieces *"),
 		dropZones = document.querySelectorAll(".drop-zone"),
 		theGameBoard = document.querySelector(".puzzle-board");
 
+	// I made this var to be the dragZone but nothing worked with it
+
+	//	dragZone = document.querySelector(".puzzle-pieces");
+
 	const piecePaths = ["topLeft", "topRight", "bottomLeft", "bottomRight"];
 
-	//theButtons becomes this:
-	// [
-	// <img>
-	// <img>
-	// <img>
-	// <img>
-	//]
+	// Reset function but this does not work as intended
+
+	// function resetPieces() {
+	//	if (element.hasChildNodes()) {
+	//		document.getElementById("puzzle-pieces").reset();
+	//	}
+    //	}
 
 	function changeImageSet() {	
-		// debugger; //pause out code execution at this point
+		
+		//  check each zone, if child is there, move it back to drag zone (append it)
+		// This also didnt seem to work as intended
+		
+		// dropZones.forEach(zone => {
+		//	 if (zone.currentEl == 0) {
+		//		 return;
+		//	 }
+		//	});
+
+		// I also tried this but it also didnt work
+
+	//	dragZone.forEach(zone => {
+	//		if (zone.hasChild(puzzle-pieces)) {
+	//			zone.appendChild();
+	//		}
+	//  });
+
 		let key = this.dataset.bgref;
 		console.log(key);
 
@@ -25,6 +52,7 @@
 
 	piecePaths.forEach((piece, index) => {
 		puzzlePieces[index].src = `images/${piece + this.dataset.bgref}.jpg `
+
 	})
 	}
 
@@ -33,13 +61,8 @@
 	}
 
 	function draggedOver(event) {
-		// event is the user (a click, drag, a drop)
-		// some elements have default behaviour (like an anchor tag) -> we need to block that behaviour
-		// and script our own
-		// Thats what event.preventDefault() does -> override the default behaviour (block it) 
 		event.preventDefault();
 		console.log("dragged over me");
-		// save a reference to the element were dragging
 
 	}
 
@@ -48,9 +71,19 @@
 		console.log("dropped on me");
 		let currentEl = event.dataTransfer.getData("draggedElement");
 		console.log("dropped this element:", currentEl);
-		//appendChild (add child) is a built in js method that adds an element to a containing element
-		//The "this" keyword is a reference to the element you are dropping onto (or into)
 		this.appendChild(document.querySelector(`#${currentEl}`));
+
+		// this code below is supposed to check if there is a child element and return if there is (block a drop)
+		// I dont really understand why this doesnt work, I check for a child and then return if there isnt
+		
+		// if (this.childElementCount == 0) { return; }
+		// else {}
+
+
+		// Below is another failed attempt
+
+		// if (dropZones.currentEl == 0) { return; }
+		// else {}
 	}
 
 	theButtons.forEach(button => button.addEventListener("click", changeImageSet));
@@ -60,6 +93,11 @@
 	dropZones.forEach(zone => {
 		zone.addEventListener("dragover", draggedOver);
 		zone.addEventListener("drop", handleDrop);
+		
+		// this below is supposed to check for a drop and then activate the resetPieces function
+		// that will reset if there is a child
+
+		// zone.addEventListener("drop", resetPieces);
 	});
 	
 })();
